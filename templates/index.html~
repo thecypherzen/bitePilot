@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="NutriNinja: a food clories tracker"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title> NutriNinja | A food calories tracker </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Titan+One&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- main nav -->
+    <nav class="indigo accent-4">
+      <div class="container title-wrapper">
+	<div>
+	  <h1><a class="title">Bite Pilot</a></h1>
+	  <p class="tag-line"> your everyday meal calories tracker </p>
+	</div>
+	<ul>
+	  <li>
+	    <a class="btn blue accent-1 waves-effect waves-dark"> clear all </a>
+	  </li>
+	</ul>
+      </div>
+    </nav>
+
+    <!-- App body -->
+    <div class="container">
+      <row>
+	<div class="card">
+	  <div class="card-content">
+	    <span class="card-title h2"> Add Meal/Food Item </span>
+    	    <form class="row">
+	      <div class="input-field col s6">
+		<input type="text" id="food-item" placeholder="Enter item name">
+		<label for="food-item">Meal Item </label>
+	      </div>
+	      <div class="input-field col s6">
+		<input type="text" id="calories" placeholder="Enter calories">
+		<label for="calories">Calories </label>
+	      </div>
+	      <div class="row">
+		<button type="submit" class="btn btn-primary indigo accent-4 waves-effect waves-dark"><i class="fa-solid fa-plus"></i>Add Item</button>
+		<button type="submit" class="btn right teal accent-3 waves-effect waves-dark"><i class="fa-solid fa-circle-chevron-left"></i>Back</button>
+	      </div>
+	    </form>
+	  </div>
+	</div>
+      </row>
+      <row>
+	<h3 class="heading">Total Calories: <span class="total-calories">0 </span></h3>
+	<ul class="collection">
+	  <li id="item" class="collection-item">
+	    <strong>Item name : </strong><em> 300 Calories</em>
+	    <a class="secondary-content waves-effect waves-light"><i class="fa-solid fa-pencil"></i></a>
+	  </li>
+	</ul>
+      </row>
+    </div>
+    <script src="https://kit.fontawesome.com/dd6fce1739.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="url_for('static', filename='scripts/utilities.js')">
+    <script src="url_for('static', filename='scripts/modules.js')">
+    <script src="url_for('static', filename='scripts/app.js')">
+  </body>
+</html>

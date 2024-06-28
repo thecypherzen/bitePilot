@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="request not found"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}"/>
+  </head>
+  <body>
+    <div class="card">
+      <div>
+	<h2>Not Found</h2>
+	<p class="intro-text"> Sorry, we can't find what you requested for</p>
+      </div>
+    </div>
+  </body>
+</html>

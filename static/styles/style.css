@@ -1,0 +1,73 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    line-height: 1.8rem;
+}
+
+body {
+    font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+a:hover{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+nav {
+    height: 26vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+}
+
+.container{
+    width: 70vw;
+}
+
+.title-wrapper {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr;
+    align-items: center;
+    text-align: center;
+}
+
+.container div h1{
+    margin-block: 0px !important;
+}
+
+
+.title {
+    font-family: "Titan One", sans-serif !important;
+    font-size: 3.5rem;
+}
+
+.tag-line {
+    font-size: 1.2rem;
+}
+
+i {
+    margin-right: 5px;
+}
+
+.heading {
+    margin-block: 2rem;
+}
+
+strong {
+    font-weight: 800 !important;
+}
+
+.total-calories {
+    font-size: 700;
+}
+
+h3.heading{
+    text-align: center;
+    font-weight: 700;
+}
+
+
+.secondary-content:hover{
+    color: blue;
+}
