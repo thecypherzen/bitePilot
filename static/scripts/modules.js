@@ -66,8 +66,13 @@ const ItemMgr = (function(){
     }
 
     const data = {
-	items: [],
-	totalCalories: 0,
+	items: [
+	    new Item(getNewId(), "Zobo juice", 50),
+	    new Item(getNewId(), "Fried yam", 900),
+	    new Item(getNewId(), "Eba and egusi", 2000),
+	    new Item(getNewId(), "Akara", 1080)
+	],
+	totalCalories: 4030,
 	currentItem: null,
 	update: function(item){
 	    data.items.push(item);
@@ -76,15 +81,12 @@ const ItemMgr = (function(){
     }
 
 
-
-
     // Public properties
     return {
 	createItem: function(name, calories){
 	    const newItem = new Item(getNewId(), name, calories);
 	    data.update(newItem);
-	    UIMgr.addItem(newItem);
-	    UIMgr.updateTotalCalories(data.totalCalories);
+	    return newItem;
 	},
 
 	getData: function(){
