@@ -71,3 +71,9 @@ h3.heading{
 .secondary-content:hover{
     color: blue;
 }
+
+.h2 {
+    margin-block: 2rem !important;
+    font-weight: 400 !important;
+    font-size: 2rem !important;
+}
