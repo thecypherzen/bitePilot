@@ -39,7 +39,7 @@ waves-light"><i class="fa-solid fa-pencil"></i></a>`;
 
 // validate entries
 const validEntries = function(name, calories){
-    const regexName = /^[_A-Za-z]([\w|0-9|\-|\s])*$/;
+    const regexName = /^[_A-Za-z]([\w|\W])*$/;
     const regexCalories = /^[0-9]+$/;
     return (regexName.test(name) &&
 	    regexCalories.test(calories));
