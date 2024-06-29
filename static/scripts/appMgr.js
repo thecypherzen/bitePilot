@@ -94,7 +94,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const itemToUpdate = ItemMgr.getCurrentItem();
 	ItemMgr.updateItemValues(itemToUpdate, updatedInput);
 	UIMgr.replaceListItem(itemToUpdate.id, itemToUpdate);
-	DbMgr.storage.save(ItemMgr.getItems());
+	DbMgr.saveItems(ItemMgr.getItems());
 	setTimeout(() => {
 	    UIMgr.loadHomeState();
 	}, 500);
