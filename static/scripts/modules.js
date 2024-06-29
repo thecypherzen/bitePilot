@@ -17,6 +17,7 @@ const DbMgr = (function(){
 	},
 
 	init: function(){
+	    // initialises database session
 	    const dbItems = Storage.db.getItem(Storage.key);
 	    if (!dbItems){
 		Storage.items = [];
@@ -37,6 +38,7 @@ const DbMgr = (function(){
 	    }
 	},
 	saveItems: function(items=null){
+	    // saves items to local storage
 	    Storage.save(items);
 	}
     }
@@ -89,20 +91,25 @@ const UIMgr = (function(){
     // Public attributes
     return {
 	addItem: function(item){
+	    // adds single item to ui list
 	    addNewListItem(item);
 	},
 	addItems: function(items){
+	    // adds list of items to ui list
 	    items.forEach((item) => {
 		addNewListItem(item);
 	    });
 	},
 	clearInput: function(){
+	    // clears ui input fields
 	    clearFields();
 	},
 	getElements: function(){
+	    // returns selected ui elements
 	    return uiElements;
 	},
 	deleteAllListItems: function(){
+	    // deletes all ui list items
 	    const itemsList = uiElements.itemsList;
 	    const listItems = Array.from(itemsList.children);
 	    listItems.forEach(item => {
@@ -110,21 +117,28 @@ const UIMgr = (function(){
 	    });
 	},
 	deleteListItem: function(itemId){
+	    // deletes single ui list item
 	    const itemsList = uiElements.itemsList;
 	    const listItem = getListItem(itemId, itemsList);
 	    itemsList.removeChild(listItem);
 	},
 	getUserInput: function(){
+	    // gets and returns user input
 	    return {
 		name: uiElements.itemInput.value,
 		calories: uiElements.calorieInput.value
 	    }
 	},
-	getSelectors: function(){ return Selectors; },
+	getSelectors: function(){
+	    // returns all document element selectors
+	    return Selectors;
+	},
 	hideList: function(){
+	    // hides ui items' list
 	    uiElements.itemsList.style.display = "none";
 	},
 	loadEditState: function(itemToEdit){
+	    // sets ui in edit state
 	    UIMgr.clearInput();
 	    uiElements.addItemBtn.style.display = 'none';
 	    [uiElements.updateItemBtn,
@@ -136,6 +150,7 @@ const UIMgr = (function(){
 	    uiElements.calorieInput.value = parseInt(itemToEdit.calories);
 	},
 	loadHomeState: function(){
+	    // sets ui in home state
 	    UIMgr.clearInput();
 	    uiElements.addItemBtn.style.display = "inline";
 	    [uiElements.updateItemBtn,
@@ -148,6 +163,7 @@ const UIMgr = (function(){
 	     });
 	},
 	replaceListItem: function(itemId, updatedItem){
+	    // update a list item's values
 	    const listItems = Array.from(uiElements.itemsList.children);
 	    const listItem = listItems.filter(item => {
 		return item.id == itemId;
@@ -155,9 +171,11 @@ const UIMgr = (function(){
 	    replaceLiContent(listItem, updatedItem);
 	},
 	showList: function(){
+	    // shows ui items' list
 	    uiElements.itemsList.style.display = "block";
 	},
 	updateTotalCalories: function(total){
+	    // sets ui total calories to given value
 	    uiElements.totalCalories.textContent = `${total}`;
 	}
     }
@@ -166,12 +184,16 @@ const UIMgr = (function(){
 
 // Item Module
 const ItemMgr = (function(){
+    // Defines public and private Item attributes
+
+    // Item constructor
     const Item = function(id, name, calories){
 	this.id = id;
 	this.name = name;
 	this.calories = calories;
     };
 
+    // re-calculates and sets totalCalories
     const setTotalCalories = function(){
 	let total = 0;
 	data.items.forEach(item => {
@@ -180,6 +202,7 @@ const ItemMgr = (function(){
 	data.totalCalories = total;
     }
 
+    // item internal data structure
     const data = {
 	items: [],
 	totalCalories: 0,
@@ -194,17 +217,23 @@ const ItemMgr = (function(){
     // Public properties
     return {
 	createItem: function(name, calories, id=null){
+	    // creates a new Item instance
 	    const itemId = id ? id : getNewId();
 	    const newItem = new Item(itemId, name, calories);
 	    data.update(newItem);
 	    return newItem;
 	},
 	deleteAllItems: function(){
+	    // deletes all items from data structure
+	    // returns empty list
 	    data.items = [];
 	    setTotalCalories();
 	    return data.items;
 	},
 	deleteCurrentItem: function(){
+	    // deletes data structure's current item from
+	    // list
+	    // returns: updated items list
 	    let items = data.items.filter(item => {
 		return item.id !== data.currentItem.id;
 	    });
@@ -214,33 +243,44 @@ const ItemMgr = (function(){
 	    return data.items;
 	},
 	getCurrentItem: function(){
+	    // returns current item
 	    return data.currentItem;
 	},
 	getData: function(){
+	    // returns entire data object
 	    return data;
 	},
 	getItemById: function(id){
+	    // gets and returns element with given id
+	    // designed to never fail
 	    const item = data.items.find(item => {
 		return item.id === id;
 	    });
 	    return item;
 	},
 	getItems: function(){
+	    // returns list of all items
 	    return data.items;
 	},
 	setCurrentItem: function(item){
+	    // sets value of currentItem
 	    data.currentItem = item;
 	},
 	setItems: function(items){
+	    // sets value of items in data structure
+	    // to new value
 	    data.items = items;
 	},
 	totalCalories: function(){
+	    // returns value of total calories
 	    return data.totalCalories;
 	},
 	unsetCurrentItem: function(){
+	    // unsets value of current item in data structure
 	    data.currentItem = null;
 	},
 	updateItemValues: function(item, newValues){
+	    // updates values of item with given values
 	    item.name = newValues.name;
 	    item.calories = parseInt(newValues.calories);
 	    setTotalCalories();
