@@ -25,7 +25,7 @@ const newListItem = function(item){
     li.className = "collection-item";
     li.innerHTML =
         `<strong>${item.name} : </strong><em> ${item.calories} \
-Calories</em><a id="delete-icon" class="secondary-content waves-effect \
+Calories</em><a id="edit-icon" class="secondary-content waves-effect \
 waves-light"><i class="fa-solid fa-pencil"></i></a>`;
     return li;
 }
@@ -33,7 +33,7 @@ waves-light"><i class="fa-solid fa-pencil"></i></a>`;
 
 const replaceLiContent = function(li, item){
     li.innerHTML = `<strong>${item.name} : </strong><em> ${item.calories} \
-Calories</em><a id="delete-icon" class="secondary-content waves-effect \
+Calories</em><a id="edit-icon" class="secondary-content waves-effect \
 waves-light"><i class="fa-solid fa-pencil"></i></a>`;
 }
 

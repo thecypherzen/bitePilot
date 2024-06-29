@@ -58,7 +58,7 @@ const UIMgr = (function(){
 	backBtn: "back-btn",
 	calorieInput: "calories",
 	deleteItemBtn: "delete-item-btn",
-	deleteIcon: "delete-icon",
+	editIcon: "edit-icon",
 	itemInput: "food-item",
 	itemsList: "items-list",
 	totalCalories: "total-calories",
@@ -206,7 +206,6 @@ const ItemMgr = (function(){
 	    return data;
 	},
 	getItemById: function(id){
-	    console.log(`searching item ${id}...`);
 	    const item = data.items.find(item => {
 		return item.id === id;
 	    });
@@ -221,7 +220,9 @@ const ItemMgr = (function(){
 	setItems: function(items){
 	    data.items = items;
 	},
-	totalCalories: data.totalCalories,
+	totalCalories: function(){
+	    return data.totalCalories;
+	},
 	unsetCurrentItem: function(){
 	    data.currentItem = null;
 	},

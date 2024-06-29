@@ -6,7 +6,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 
     //initialize application
     const appInit = function(){
-	console.log(`${appName} is initializing...`);
+	// console.log(`${appName} is initializing...`);
 
 	// Load home state and event listeners
 	loadEventListeners();
@@ -19,10 +19,19 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
     const loadEventListeners = function(){
 	const uiElements = UIMgr.getElements();
 	uiElements.addItemBtn.onclick = addNewItemInput;
-	uiElements.itemsList.onclick = editItemInput;
+	uiElements.itemsList.onclick = editItemAction;
 	uiElements.backBtn.onclick = undoEditState;
 	uiElements.updateItemBtn.onclick = updateItemInput;
 	uiElements.deleteItemBtn.onclick = deleteItemInput;
+
+	// disable enter key press
+	document.onkeypress = function(e){
+	    if (e.charCode === 13 || e.keyCode === 13 ||
+		e.which === 13 || e.code === "Enter"){
+		e.preventDefault();
+		e.stopPropagation();
+	    }
+	}
     };
 
     // handle add-item button click event
@@ -33,7 +42,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	if (validEntries(name, calories)){
 	    const newItem = ItemMgr.createItem(name, parseInt(calories));
 	    UIMgr.addItem(newItem);
-	    UIMgr.updateTotalCalories(ItemMgr.totalCalories);
+	    UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	    UIMgr.clearInput();
 	    DbMgr.saveItem(newItem);
 	    UIMgr.showList();
@@ -48,18 +57,18 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const currentItemId = ItemMgr.getCurrentItem().id
 	const newItems = ItemMgr.deleteCurrentItem();
 	UIMgr.deleteListItem(currentItemId);
-	UIMgr.updateTotalCalories(ItemMgr.totalCalories);
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	UIMgr.loadHomeState();
 	DbMgr.saveItems(newItems);
 	e.preventDefault();
     };
 
     // handle item edit icon click event
-    const editItemInput = function(e){
-	const delIcon = UIMgr.getSelectors().deleteIcon;
-	if (e.target.parentNode.id == delIcon ||
-	   e.target.id == delIcon){
-	    const itemId = e.target.id == delIcon ?
+    const editItemAction = function(e){
+	const editIcon = UIMgr.getSelectors().editIcon;
+	if (e.target.parentNode.id == editIcon ||
+	   e.target.id == editIcon){
+	    const itemId = e.target.id == editIcon ?
 		  e.target.parentNode.id :
 		  e.target.parentNode.parentNode.id;
 	    const itemToEdit = ItemMgr.getItemById(itemId);
@@ -76,7 +85,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	    return ItemMgr.createItem(item.name, item.calories, item.id);
 	});
 	UIMgr.addItems(newItems);
-	UIMgr.updateTotalCalories(ItemMgr.totalCalories);
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	if (newItems.length){
 	    UIMgr.showList();
 	}
@@ -111,3 +120,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	getName: function(){ return appName; },
     }
 })(UIMgr, ItemMgr, DbMgr);
+
+
+// Initialize app
+App.init();
