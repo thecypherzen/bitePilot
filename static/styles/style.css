@@ -77,3 +77,7 @@ h3.heading{
     font-weight: 400 !important;
     font-size: 2rem !important;
 }
+
+.hidden{
+    display: none;
+}

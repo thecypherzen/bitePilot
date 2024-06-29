@@ -1,60 +1,152 @@
 #!/usr/bin/node
 
 // Storage Module
+const DbMgr = (function(){
+    // get an item
+    const Db = function(){
+	this.db = window.localStorage;
+	this.key = "bitePilot";
+	this.items = null;
+    };
 
+    const Storage = new Db;
+
+    return {
+	getData: function(){
+	    return Storage.items;
+	},
+
+	init: function(){
+	    const dbItems = Storage.db.getItem(Storage.key);
+	    if (!dbItems){
+		Storage.items = [];
+	    } else {
+		Storage.items = JSON.parse(dbItems);
+	    }
+	    Storage.save = function(items=null){
+		if (items){
+		    Storage.items = items;
+		}
+		Storage.db.setItem(Storage.key,
+				   JSON.stringify(Storage.items));
+	    }
+
+	    Storage.reload = function(){
+		Storage.items =
+		    JSON.parse(Storage.db.getItem(Storage.key));
+	    }
+	},
+
+	storage: Storage,
+
+	saveItem: function(item){
+	    Storage.items.push(item);
+	    Storage.save();
+	}
+    }
+})();
 
 
 // UI module
 const UIMgr = (function(){
-    console.log("UI manager loaded...");
 
     // Define all UI Selectors
     const Selectors = {
+	addItemBtn: "add-item-btn",
+	backBtn: "back-btn",
+	calorieInput: "calories",
+	deleteItemBtn: "delete-item-btn",
+	deleteIcon: "delete-icon",
+	itemInput: "food-item",
 	itemsList: "items-list",
-	totalCalories: "total-calories"
+	totalCalories: "total-calories",
+	updateItemBtn: "update-item-btn",
+    };
+
+    // Select all needed elements
+    const uiElements = {
+	addItemBtn: document.getElementById(Selectors.addItemBtn),
+	backBtn: document.getElementById(Selectors.backBtn),
+	calorieInput: document.getElementById(Selectors.calorieInput),
+	deleteItemBtn: document.getElementById(Selectors.deleteItemBtn),
+	itemInput: document.getElementById(Selectors.itemInput),
+	itemsList: document.getElementById(Selectors.itemsList),
+	totalCalories: document.
+	    querySelector(`.${Selectors.totalCalories}`),
+	updateItemBtn: document.getElementById(Selectors.updateItemBtn)
     };
 
     // add item to List
     const addNewListItem = function(item){
-	const li = document.createElement("li");
-	li.id = `${item.id}`;
-	li.className = "collection-item";
-	li.innerHTML =
-	    `<strong>${item.name} : </strong><em> ${item.calories} \
-Calories</em><a class="secondary-content waves-effect waves-light">\
-<i class="fa-solid fa-pencil"></i></a>`;
-
-	document.getElementById(Selectors.itemsList).
-	    insertAdjacentElement('beforeend', li);
-
-	console.log(`${item.name} added`);
+	const li = newListItem(item);
+	uiElements.itemsList.insertAdjacentElement('beforeend', li);
     };
 
-
+    // clear ui input fields
+    const clearFields = function(){
+	uiElements.itemInput.value = '';
+	uiElements.calorieInput.value = '';
+    };
 
     // Public attributes
     return {
-	addItem: function(item){
-	    addNewListItem(item);
-	},
-
+	addItem: function(item){ addNewListItem(item); },
 	addItems: function(items){
 	    items.forEach((item) => {
 		addNewListItem(item);
 	    });
 	},
-
-	getSelectors: function(){
-	    return Selectors;
+	clearInput: function(){ clearFields(); },
+	getElements: function(){ return uiElements; },
+	getUserInput: function(){
+	    return {
+		name: uiElements.itemInput.value,
+		calories: uiElements.calorieInput.value
+	    }
 	},
-
-	updateTotalCalories: function(newTotal){
-	    document.querySelector(`.${Selectors.totalCalories}`).
-		textContent = `${newTotal}`;
+	getSelectors: function(){ return Selectors; },
+	hideList: function(){
+	    uiElements.itemsList.style.display = "none";
+	},
+	loadEditState: function(itemToEdit){
+	    UIMgr.clearInput();
+	    uiElements.addItemBtn.style.display = 'none';
+	    [uiElements.updateItemBtn,
+	     uiElements.deleteItemBtn,
+	     uiElements.backBtn].forEach(element => {
+		 element.classList.remove("hidden");
+	     });
+	    uiElements.itemInput.value = itemToEdit.name;
+	    uiElements.calorieInput.value = parseInt(itemToEdit.calories);
+	},
+	loadHomeState: function(e=null){
+	    UIMgr.clearInput();
+	    uiElements.addItemBtn.style.display = "inline";
+	    [uiElements.updateItemBtn,
+	     uiElements.deleteItemBtn,
+	     uiElements.backBtn].forEach(element => {
+		 if (!(Array.from(element.classList).
+		       includes("hidden"))){
+		     element.classList.add("hidden");
+		 }
+	     });
+	    e?.preventDefault();
+	},
+	replaceListItem: function(itemId, updatedItem){
+	    const listItems = Array.from(uiElements.itemsList.children);
+	    const listItem = listItems.filter(item => {
+		return item.id == itemId;
+	    })[0];
+	    replaceLiContent(listItem, updatedItem);
+	},
+	showList: function(){
+	    uiElements.itemsList.style.display = "block";
+	},
+	updateTotalCalories: function(total){
+	    uiElements.totalCalories.textContent = `${total}`;
 	}
     }
 })();
-
 
 
 // Item Module
@@ -63,38 +155,58 @@ const ItemMgr = (function(){
 	this.id = id;
 	this.name = name;
 	this.calories = calories;
-    }
+    };
 
     const data = {
-	items: [
-	    new Item(getNewId(), "Zobo juice", 50),
-	    new Item(getNewId(), "Fried yam", 900),
-	    new Item(getNewId(), "Eba and egusi", 2000),
-	    new Item(getNewId(), "Akara", 1080)
-	],
-	totalCalories: 4030,
+	items: [],
+	totalCalories: 0,
 	currentItem: null,
 	update: function(item){
 	    data.items.push(item);
 	    data.totalCalories += item.calories;
 	}
-    }
+    };
 
 
     // Public properties
     return {
-	createItem: function(name, calories){
-	    const newItem = new Item(getNewId(), name, calories);
+	createItem: function(name, calories, id=null){
+	    const itemId = id ? id : getNewId();
+	    const newItem = new Item(itemId, name, calories);
 	    data.update(newItem);
 	    return newItem;
 	},
-
+	getCurrentItem: function(){
+	    return data.currentItem;
+	},
 	getData: function(){
 	    return data;
 	},
-
+	getItemById: function(id){
+	    console.log(`searching item ${id}...`);
+	    const item = data.items.find(item => {
+		return item.id === id;
+	    });
+	    return item;
+	},
 	getItems: function(){
 	    return data.items;
+	},
+	setCurrentItem: function(item){
+	    data.currentItem = item;
+	},
+	setItems: function(items){
+	    data.items = items;
+	},
+	totalCalories: function(){
+	    return data.totalCalories;
+	},
+	unsetCurrentItem: function(){
+	    data.currentItem = null;
+	},
+	updateItemValues: function(item, newValues){
+	    item.name = newValues.name;
+	    item.calories = parseInt(newValues.calories);
 	}
     }
 })();

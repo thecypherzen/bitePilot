@@ -39,12 +39,14 @@
 		<label for="food-item">Meal Item </label>
 	      </div>
 	      <div class="input-field col s6">
-		<input type="text" id="calories" placeholder="Enter calories">
+		<input type="number" id="calories" placeholder="Enter calories">
 		<label for="calories">Calories </label>
 	      </div>
 	      <div class="row">
-		<button type="submit" class="btn btn-primary indigo accent-4 waves-effect waves-dark"><i class="fa-solid fa-plus"></i>Add Item</button>
-		<button type="submit" class="btn right teal accent-3 waves-effect waves-dark"><i class="fa-solid fa-circle-chevron-left"></i>Back</button>
+		<button id="add-item-btn" type="submit" class="btn btn-primary indigo accent-4 waves-effect waves-dark"><i class="fa-solid fa-plus"></i>Add Item</button>
+		<button id="update-item-btn" type="submit" class="btn orange darken-1 waves-effect waves-light hidden"><i class="fa-solid fa-pen-to-square"></i>Save changes</button>
+		<button id="delete-item-btn" type="submit" class="btn red darken-1 waves-effect waves-light hidden"><i class="fa-solid fa-trash"></i>Delete Item</button>
+		<button id="back-btn" type="submit" class="btn right teal accent-3 waves-effect waves-dark hidden"><i class="fa-solid fa-circle-chevron-left"></i>Back</button>
 	      </div>
 	    </form>
 	  </div>
