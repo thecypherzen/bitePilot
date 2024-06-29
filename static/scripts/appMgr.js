@@ -45,8 +45,12 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 
     // handle item delee button click event
     const deleteItemInput = function(e){
-	const currentItem = ItemMgr.getCurrentItem();
-	console.log(currentItem);
+	const currentItemId = ItemMgr.getCurrentItem().id
+	const newItems = ItemMgr.deleteCurrentItem();
+	UIMgr.deleteListItem(currentItemId);
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
+	UIMgr.loadHomeState();
+	DbMgr.saveItems(newItems);
 	e.preventDefault();
     };
 

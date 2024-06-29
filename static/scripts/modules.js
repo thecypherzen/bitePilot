@@ -37,7 +37,9 @@ const DbMgr = (function(){
 	    }
 	},
 
-	storage: Storage,
+	saveItems: function(items=null){
+	    Storage.save(items);
+	},
 
 	saveItem: function(item){
 	    Storage.items.push(item);
@@ -98,6 +100,11 @@ const UIMgr = (function(){
 	},
 	clearInput: function(){ clearFields(); },
 	getElements: function(){ return uiElements; },
+	deleteListItem: function(itemId){
+	    const itemsList = uiElements.itemsList;
+	    const listItem = getListItem(itemId, itemsList);
+	    itemsList.removeChild(listItem);
+	},
 	getUserInput: function(){
 	    return {
 		name: uiElements.itemInput.value,
@@ -156,6 +163,14 @@ const ItemMgr = (function(){
 	this.calories = calories;
     };
 
+    const setTotalCalories = function(){
+	let total = 0;
+	data.items.forEach(item => {
+	    total += item.calories;
+	});
+	data.totalCalories = total;
+    }
+
     const data = {
 	items: [],
 	totalCalories: 0,
@@ -174,6 +189,15 @@ const ItemMgr = (function(){
 	    const newItem = new Item(itemId, name, calories);
 	    data.update(newItem);
 	    return newItem;
+	},
+	deleteCurrentItem: function(){
+	    let items = data.items.filter(item => {
+		return item.id !== data.currentItem.id;
+	    });
+	    data.items = items;
+	    setTotalCalories();
+	    data.currentItem = null;
+	    return data.items;
 	},
 	getCurrentItem: function(){
 	    return data.currentItem;
@@ -206,6 +230,7 @@ const ItemMgr = (function(){
 	updateItemValues: function(item, newValues){
 	    item.name = newValues.name;
 	    item.calories = parseInt(newValues.calories);
+	    setTotalCalories();
 	}
     }
 })();
