@@ -71,7 +71,7 @@ const UIMgr = (function(){
 	addItemBtn: document.getElementById(Selectors.addItemBtn),
 	backBtn: document.getElementById(Selectors.backBtn),
 	calorieInput: document.getElementById(Selectors.calorieInput),
-	clearBtn: document.getElementById(Selectors.clearBtn,
+	clearBtn: document.getElementById(Selectors.clearBtn),
 	deleteItemBtn: document.getElementById(Selectors.deleteItemBtn),
 	itemInput: document.getElementById(Selectors.itemInput),
 	itemsList: document.getElementById(Selectors.itemsList),
