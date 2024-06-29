@@ -15,7 +15,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	loadStorageItems();
     };
 
-    // load event listeners to ui elements
+    // load event listeners to all ui elements
     const loadEventListeners = function(){
 	const uiElements = UIMgr.getElements();
 	uiElements.addItemBtn.onclick = addNewItemInput;
@@ -25,7 +25,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	uiElements.updateItemBtn.onclick = updateItemInput;
 	uiElements.deleteItemBtn.onclick = deleteItemInput;
 
-	// disable enter key press
+	// disable enter being used for form submission
 	document.onkeypress = function(e){
 	    if (e.charCode === 13 || e.keyCode === 13 ||
 		e.which === 13 || e.code === "Enter"){
@@ -40,6 +40,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const values = UIMgr.getUserInput();
 	const name = values.name;
 	const calories = values.calories;
+	// proceed only if values are valid
 	if (validEntries(name, calories)){
 	    const newItem = ItemMgr.createItem(name, parseInt(calories));
 	    UIMgr.addItem(newItem);
@@ -81,6 +82,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
     // handle item edit icon click event
     const editItemAction = function(e){
 	const editIcon = UIMgr.getSelectors().editIcon;
+	// delegate click event to the <i> and <a> tags
 	if (e.target.parentNode.id == editIcon ||
 	   e.target.id == editIcon){
 	    const itemId = e.target.id == editIcon ?
@@ -93,7 +95,8 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	e.preventDefault();
     };
 
-    // load items in storage to ui and items
+    // load items from storage to ui and items module
+    // and update total calories in ui
     const loadStorageItems = function(){
 	const dbItems = DbMgr.getData();
 	let newItems = dbItems.map((item) => {
@@ -113,6 +116,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	e.preventDefault();
     };
 
+    // handle update btn click event
     const updateItemInput = function(e){
 	const updatedInput = UIMgr.getUserInput();
 	const itemToUpdate = ItemMgr.getCurrentItem();
@@ -131,8 +135,10 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
     // Public attributes
     return {
 	init: function(){
+	    // initilizes the application
 	    appInit();
 	},
+	// returns application name.
 	getName: function(){ return appName; },
     }
 })(UIMgr, ItemMgr, DbMgr);
