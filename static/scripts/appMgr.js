@@ -45,7 +45,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	    UIMgr.addItem(newItem);
 	    UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	    UIMgr.clearInput();
-	    DbMgr.saveItem(newItem);
+	    DbMgr.saveItems(ItemMgr.getItems());
 	    UIMgr.showList();
 	} else {
 	    console.log("invalid entry");
@@ -55,9 +55,12 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 
     // handle clear all button click event
     const clearAllSubmit = function(e){
-	console.log("clearing all...");
+	const emptyList = ItemMgr.deleteAllItems();
+	UIMgr.deleteAllListItems();
+	UIMgr.hideList();
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
+	DbMgr.saveItems(emptyList);
 	e.preventDefault();
-	e.stopPropagation();
     };
 
     // handle item delee button click event
@@ -68,6 +71,10 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	UIMgr.loadHomeState();
 	DbMgr.saveItems(newItems);
+	// hide list if empty
+	if(!newItems.length){
+	    UIMgr.hideList();
+	}
 	e.preventDefault();
     };
 
@@ -111,6 +118,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const itemToUpdate = ItemMgr.getCurrentItem();
 	ItemMgr.updateItemValues(itemToUpdate, updatedInput);
 	UIMgr.replaceListItem(itemToUpdate.id, itemToUpdate);
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
 	DbMgr.saveItems(ItemMgr.getItems());
 	setTimeout(() => {
 	    UIMgr.loadHomeState();

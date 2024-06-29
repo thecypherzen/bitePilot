@@ -36,14 +36,8 @@ const DbMgr = (function(){
 		    JSON.parse(Storage.db.getItem(Storage.key));
 	    }
 	},
-
 	saveItems: function(items=null){
 	    Storage.save(items);
-	},
-
-	saveItem: function(item){
-	    Storage.items.push(item);
-	    Storage.save();
 	}
     }
 })();
@@ -94,14 +88,27 @@ const UIMgr = (function(){
 
     // Public attributes
     return {
-	addItem: function(item){ addNewListItem(item); },
+	addItem: function(item){
+	    addNewListItem(item);
+	},
 	addItems: function(items){
 	    items.forEach((item) => {
 		addNewListItem(item);
 	    });
 	},
-	clearInput: function(){ clearFields(); },
-	getElements: function(){ return uiElements; },
+	clearInput: function(){
+	    clearFields();
+	},
+	getElements: function(){
+	    return uiElements;
+	},
+	deleteAllListItems: function(){
+	    const itemsList = uiElements.itemsList;
+	    const listItems = Array.from(itemsList.children);
+	    listItems.forEach(item => {
+		itemsList.removeChild(item);
+	    });
+	},
 	deleteListItem: function(itemId){
 	    const itemsList = uiElements.itemsList;
 	    const listItem = getListItem(itemId, itemsList);
@@ -191,6 +198,11 @@ const ItemMgr = (function(){
 	    const newItem = new Item(itemId, name, calories);
 	    data.update(newItem);
 	    return newItem;
+	},
+	deleteAllItems: function(){
+	    data.items = [];
+	    setTotalCalories();
+	    return data.items;
 	},
 	deleteCurrentItem: function(){
 	    let items = data.items.filter(item => {

@@ -8,7 +8,6 @@ const getNewId = function(offset=2){
 	    Math.random().toString(36).substr(offset));
 }
 
-
 // get list item from items list
 const getListItem = function(id, element){
     let matchedItem = Array.from(element.children).filter(
