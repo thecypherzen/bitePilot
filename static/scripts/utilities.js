@@ -9,6 +9,15 @@ const getNewId = function(offset=2){
 }
 
 
+// get list item from items list
+const getListItem = function(id, element){
+    let matchedItem = Array.from(element.children).filter(
+	item => {
+	    return item.id == id;
+	});
+    return matchedItem[0];
+}
+
 // create new li element
 const newListItem = function(item){
     const li = document.createElement("li");
