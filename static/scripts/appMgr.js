@@ -33,7 +33,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	if (validEntries(name, calories)){
 	    const newItem = ItemMgr.createItem(name, parseInt(calories));
 	    UIMgr.addItem(newItem);
-	    UIMgr.updateTotalCalories(ItemMgr.totalCalories());
+	    UIMgr.updateTotalCalories(ItemMgr.totalCalories);
 	    UIMgr.clearInput();
 	    DbMgr.saveItem(newItem);
 	    UIMgr.showList();
@@ -48,7 +48,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const currentItemId = ItemMgr.getCurrentItem().id
 	const newItems = ItemMgr.deleteCurrentItem();
 	UIMgr.deleteListItem(currentItemId);
-	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories);
 	UIMgr.loadHomeState();
 	DbMgr.saveItems(newItems);
 	e.preventDefault();
@@ -76,7 +76,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	    return ItemMgr.createItem(item.name, item.calories, item.id);
 	});
 	UIMgr.addItems(newItems);
-	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
+	UIMgr.updateTotalCalories(ItemMgr.totalCalories);
 	if (newItems.length){
 	    UIMgr.showList();
 	}

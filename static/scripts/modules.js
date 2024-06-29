@@ -221,9 +221,7 @@ const ItemMgr = (function(){
 	setItems: function(items){
 	    data.items = items;
 	},
-	totalCalories: function(){
-	    return data.totalCalories;
-	},
+	totalCalories: data.totalCalories,
 	unsetCurrentItem: function(){
 	    data.currentItem = null;
 	},
