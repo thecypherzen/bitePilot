@@ -29,7 +29,8 @@ waves-light"><i class="fa-solid fa-pencil"></i></a>`;
     return li;
 }
 
-
+// replace content of list item
+// a helper function for update btn click handler
 const replaceLiContent = function(li, item){
     li.innerHTML = `<strong>${item.name} : </strong><em> ${item.calories} \
 Calories</em><a id="edit-icon" class="secondary-content waves-effect \
