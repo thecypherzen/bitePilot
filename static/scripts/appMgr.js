@@ -22,6 +22,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	uiElements.itemsList.onclick = editItemInput;
 	uiElements.backBtn.onclick = UIMgr.loadHomeState;
 	uiElements.updateItemBtn.onclick = updateItemInput;
+	uiElements.deleteItemBtn.onclick = deleteItemInput;
     };
 
     // handle add-item button click event
@@ -42,6 +43,12 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	e.preventDefault();
     };
 
+    // handle item delee button click event
+    const deleteItemInput = function(e){
+	const currentItem = ItemMgr.getCurrentItem();
+	console.log(currentItem);
+	e.preventDefault();
+    };
 
     // handle item edit icon click event
     const editItemInput = function(e){
