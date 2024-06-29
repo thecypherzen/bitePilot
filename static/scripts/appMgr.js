@@ -21,6 +21,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	uiElements.addItemBtn.onclick = addNewItemInput;
 	uiElements.itemsList.onclick = editItemAction;
 	uiElements.backBtn.onclick = undoEditState;
+	uiElements.clearBtn.onclick = clearAllSubmit;
 	uiElements.updateItemBtn.onclick = updateItemInput;
 	uiElements.deleteItemBtn.onclick = deleteItemInput;
 
@@ -50,6 +51,13 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	    console.log("invalid entry");
 	}
 	e.preventDefault();
+    };
+
+    // handle clear all button click event
+    const clearAllSubmit = function(e){
+	console.log("clearing all...");
+	e.preventDefault();
+	e.stopPropagation();
     };
 
     // handle item delee button click event
