@@ -119,7 +119,7 @@ const UIMgr = (function(){
 	    uiElements.itemInput.value = itemToEdit.name;
 	    uiElements.calorieInput.value = parseInt(itemToEdit.calories);
 	},
-	loadHomeState: function(e=null){
+	loadHomeState: function(){
 	    UIMgr.clearInput();
 	    uiElements.addItemBtn.style.display = "inline";
 	    [uiElements.updateItemBtn,
@@ -130,7 +130,6 @@ const UIMgr = (function(){
 		     element.classList.add("hidden");
 		 }
 	     });
-	    e?.preventDefault();
 	},
 	replaceListItem: function(itemId, updatedItem){
 	    const listItems = Array.from(uiElements.itemsList.children);

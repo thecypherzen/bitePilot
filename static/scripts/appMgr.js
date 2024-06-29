@@ -20,7 +20,7 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	const uiElements = UIMgr.getElements();
 	uiElements.addItemBtn.onclick = addNewItemInput;
 	uiElements.itemsList.onclick = editItemInput;
-	uiElements.backBtn.onclick = UIMgr.loadHomeState;
+	uiElements.backBtn.onclick = undoEditState;
 	uiElements.updateItemBtn.onclick = updateItemInput;
 	uiElements.deleteItemBtn.onclick = deleteItemInput;
     };
@@ -76,6 +76,13 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 	if (newItems.length){
 	    UIMgr.showList();
 	}
+    };
+
+    // handle back btn click event
+    const undoEditState = function(e){
+	UIMgr.loadHomeState();
+	ItemMgr.unsetCurrentItem();
+	e.preventDefault();
     };
 
     const updateItemInput = function(e){
