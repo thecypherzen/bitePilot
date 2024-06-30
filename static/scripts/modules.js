@@ -12,6 +12,11 @@ const DbMgr = (function(){
     const Storage = new Db;
 
     return {
+	clearAll: function (){
+	    // clears all data from local storage
+	    Storage.items = null;
+	    Storage.db.removeItem(Storage.key);
+	},
 	getData: function(){
 	    return Storage.items;
 	},
@@ -225,10 +230,9 @@ const ItemMgr = (function(){
 	},
 	deleteAllItems: function(){
 	    // deletes all items from data structure
-	    // returns empty list
 	    data.items = [];
 	    setTotalCalories();
-	    return data.items;
+	    data.items;
 	},
 	deleteCurrentItem: function(){
 	    // deletes data structure's current item from
