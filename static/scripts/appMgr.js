@@ -56,11 +56,11 @@ const App = (function(UIMgr, ItemMgr, DbMgr){
 
     // handle clear all button click event
     const clearAllSubmit = function(e){
-	const emptyList = ItemMgr.deleteAllItems();
+	ItemMgr.deleteAllItems();
 	UIMgr.deleteAllListItems();
 	UIMgr.hideList();
 	UIMgr.updateTotalCalories(ItemMgr.totalCalories());
-	DbMgr.saveItems(emptyList);
+	DbMgr.clearAll();
 	e.preventDefault();
     };
 
