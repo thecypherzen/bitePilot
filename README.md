@@ -18,9 +18,11 @@
 
 ## Pending Features:
 - Login and authentication
+- Add date and food category
 - MySQL Db persistence
 - Theme change options
-- Report
+- Reports by day, category and calories
+- UI notifications
 
 ## Technologies:
 - [Materialize CSS](https://materializecss.com/): for ui styling
